@@ -1,19 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Weather in <%= city %></title>
-  <link rel="stylesheet" href="/styles.css" />
+  <title><%= city %> Weather</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>🌍 Weather in <%= city %>, <%= country %></h1>
-    <div class="weather-box">
-      <h2><%= icon %> <%= description %></h2>
-      <p>🌡️ Temperature: <%= temperature %>°C / <%= tempF %>°F</p>
-      <p>💨 Wind Speed: <%= windspeed %> km/h</p>
-    </div>
-    <a href="/">🔁 Search Another City</a>
-  </div>
+  <h1>🌤️ Weather in <%= city %>, <%= country %></h1>
+  <p><strong>Temperature:</strong> <%= temperature %>°C / <%= tempF %>°F</p>
+  <p><strong>Condition:</strong> <%= icon %> <%= description %></p>
+  <p><strong>Wind Speed:</strong> <%= windspeed %> km/h</p>
+  <a href="/">🔙 Check another city</a>
 </body>
 </html>

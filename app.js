@@ -2,7 +2,6 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 
-
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -34,8 +33,8 @@ app.post('/weather', async (req, res) => {
   try {
     const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`;
     const geoRes = await axios.get(geoUrl);
-
     const location = geoRes.data.results?.[0];
+
     if (!location) {
       console.warn(`City not found: ${city}`);
       return res.render('error', { message: "City not found. Please try again." });
@@ -48,8 +47,7 @@ app.post('/weather', async (req, res) => {
 
     const current = weatherRes.data.current_weather;
     if (!current) {
-      console.warn(`Weather data missing for: ${city}`);
-      return res.render('error', { message: "Weather data not available. Try another city." });
+      return res.render('error', { message: "Weather data unavailable. Try another city." });
     }
 
     const { temperature, weathercode, windspeed } = current;
@@ -66,7 +64,12 @@ app.post('/weather', async (req, res) => {
       description: weather.desc
     });
   } catch (err) {
-    console.error("API Error:", err.message);
+    console.error("API Error:", {
+      message: err.message,
+      responseData: err.response?.data,
+      status: err.response?.status,
+      url: err.config?.url
+    });
     res.render('error', { message: "Something went wrong. Please try again later." });
   }
 });
