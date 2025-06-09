@@ -32,7 +32,12 @@ app.post('/weather', async (req, res) => {
   const city = req.body.city;
   try {
     const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`;
-    const geoRes = await axios.get(geoUrl);
+    const geoRes = await axios.get(geoUrl, {
+  headers: {
+    'Accept': 'application/json',
+    'User-Agent': 'RenderHostedApp/1.0'
+  }
+});
     const location = geoRes.data.results?.[0];
 
     if (!location) {
@@ -43,11 +48,13 @@ app.post('/weather', async (req, res) => {
     const { latitude, longitude, name, country } = location;
 
     const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`;
-  const weatherRes = await axios.get(weatherUrl, {
+ const weatherRes = await axios.get(weatherUrl, {
   headers: {
-    'Accept': 'application/json'
+    'Accept': 'application/json',
+    'User-Agent': 'RenderHostedApp/1.0' // or use any fake user agent
   }
 });
+
 
     const current = weatherRes.data.current_weather;
     if (!current) {
