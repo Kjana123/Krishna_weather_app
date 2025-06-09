@@ -3,15 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <title>WeatherNow</title>
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <div class="container">
-    <h1>🌦️ WeatherNow</h1>
-    <form action="/weather" method="POST">
+  <div class="container fade-in">
+    <div class="header">
+      <h1>🌦️ WeatherNow</h1>
+      <button class="toggle-theme" onclick="toggleTheme()">🌗 Theme</button>
+    </div>
+    <form action="/weather" method="POST" class="weather-form">
       <input type="text" name="city" placeholder="Enter city name" required />
       <button type="submit">Get Weather</button>
     </form>
   </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
 </body>
 </html>

@@ -24,7 +24,7 @@ app.post('/weather', async (req, res) => {
     const tempF = ((temperature * 9) / 5 + 32).toFixed(1);
     const windspeed = data.wind.speed;
     const description = data.weather[0].description;
-    const icon = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+   const icon = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
     const name = data.name;
     const country = data.sys.country;
 

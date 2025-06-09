@@ -2,17 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Weather in <%= city %></title>
-  <link rel="stylesheet" href="/style.css">
+  <title>Weather Result</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-  <div class="container">
-    <h1>Weather in <%= city %>, <%= country %></h1>
-    <img src="<%= icon %>" alt="Weather icon" />
-    <p><strong><%= description %></strong></p>
-    <p>🌡️ Temperature: <%= temperature %>°C / <%= tempF %>°F</p>
-    <p>🌬️ Wind Speed: <%= windspeed %> m/s</p>
-    <a href="/">🔙 Check another city</a>
+  <div class="container fade-in result-card">
+    <h2>🌍 Weather in <span class="highlight"><%= city %>, <%= country %></span></h2>
+    <div class="weather-icon">
+  <img src="<%= icon %>" alt="Weather icon">
+</div>
+
+    <p class="description"><%= description %></p>
+
+    <div class="details">
+      <p>🌡️ Temperature: <strong><%= temperature %>°C</strong> / <strong><%= tempF %>°F</strong></p>
+      <p>🌬️ Wind Speed: <strong><%= windspeed %> m/s</strong></p>
+    </div>
+
+    <a href="/" class="back-button">🔙 Check another city</a>
   </div>
 </body>
 </html>
