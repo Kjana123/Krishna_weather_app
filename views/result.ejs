@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Weather in <%= city %></title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🌍 Weather in <%= city %>, <%= country %></h1>
+    <div class="weather-box">
+      <h2><%= icon %> <%= description %></h2>
+      <p>🌡️ Temperature: <%= temperature %>°C / <%= tempF %>°F</p>
+      <p>💨 Wind Speed: <%= windspeed %> km/h</p>
+    </div>
+    <a href="/">🔁 Search Another City</a>
+  </div>
+</body>
+</html>
