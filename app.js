@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 
+
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -31,19 +32,27 @@ app.get('/', (req, res) => {
 app.post('/weather', async (req, res) => {
   const city = req.body.city;
   try {
-    const geoRes = await axios.get(
-      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`
-    );
+    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`;
+    const geoRes = await axios.get(geoUrl);
+
     const location = geoRes.data.results?.[0];
-    if (!location) return res.send("City not found");
+    if (!location) {
+      console.warn(`City not found: ${city}`);
+      return res.render('error', { message: "City not found. Please try again." });
+    }
 
     const { latitude, longitude, name, country } = location;
 
-    const weatherRes = await axios.get(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
-    );
+    const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`;
+    const weatherRes = await axios.get(weatherUrl);
 
-    const { temperature, weathercode, windspeed } = weatherRes.data.current_weather;
+    const current = weatherRes.data.current_weather;
+    if (!current) {
+      console.warn(`Weather data missing for: ${city}`);
+      return res.render('error', { message: "Weather data not available. Try another city." });
+    }
+
+    const { temperature, weathercode, windspeed } = current;
     const weather = weatherCodes[weathercode] || { icon: "❓", desc: "Unknown" };
     const tempF = ((temperature * 9) / 5 + 32).toFixed(1);
 
@@ -57,8 +66,8 @@ app.post('/weather', async (req, res) => {
       description: weather.desc
     });
   } catch (err) {
-    console.error(err.message);
-    res.send('Something went wrong. Try again.');
+    console.error("API Error:", err.message);
+    res.render('error', { message: "Something went wrong. Please try again later." });
   }
 });
 
